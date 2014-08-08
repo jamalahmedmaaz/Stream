@@ -1,0 +1,3 @@
+{
+    "mongodb_connection": "mongodb://stream_user:stream7492@kahana.mongohq.com:10021/stream"
+}
