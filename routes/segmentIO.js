@@ -1,4 +1,5 @@
 var amqp = require('amqp');
+
 var amqpconnection = amqp.createConnection({
     host: 'turtle.rmq.cloudamqp.com',
     login: 'jpophmne',
@@ -38,19 +39,14 @@ function createPOJO(data) {
 function compress() {}
 
 function sendToQueue(segmentIOPayLoad) {
-
-
     console.log(JSON.stringify(segmentIOPayLoad));
-
-    //console.log(connection);
-
     var exchange = amqpconnection.exchange('gainsight-click-stream-exchange', {
         type: 'fanout',
-        durable: false
+        durable: true
     }, function () {
         // Declaring a queue with a bogus name
         var queue = amqpconnection.queue('gainsight-click-stream-queue', {
-            durable: false,
+            durable: true,
             exclusive: true
         }, function () {
             console.log("q234");
@@ -66,4 +62,5 @@ function sendToQueue(segmentIOPayLoad) {
 
     console.log("-------");
 
+    amqpconnection.disconnect();
 }
