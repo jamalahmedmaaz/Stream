@@ -8,11 +8,12 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var segment = require('./routes/segmentIO');
+var track = require('./routes/track');
+var auth = require('./routes/auth');
 
 //Required configuration 
 var config = require('config');
-var MongoClient = require('mongodb').MongoClient,
-    Server = require('mongodb').Server;
+var MongoClient = require('mongodb').MongoClient;
 
 var app = express();
 
@@ -30,15 +31,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-
-app.post('/segmentio/event', segment.post);
+app.get('/gstrack/pixel', track.getPixel);
+app.get('/gstrack/clicklink', track.getRedirect);
+app.post('/segmentio/event', auth.verifyAccessToken, segment.post);
 
 //Should always be at end -----------
 /// catch 404 and forward to error handler
 app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 /// error handlers
@@ -46,23 +48,23 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-    app.use(function (err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+  app.use(function (err, req, res, next) {
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
     });
+  });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+  res.status(err.status || 500);
+  res.render('error', {
+    message: err.message,
+    error: {}
+  });
 });
 
 //Should always be at end -----------
@@ -72,5 +74,12 @@ module.exports = app;
 app.set('port', process.env.PORT || 3000);
 
 app.listen(app.get('port'), function () {
-    console.log('hahhaha');
+  MongoClient.connect(config.get('mongodb_connection'), function (err, db) {
+    if (err) {
+      console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
+      throw err;
+    }
+    app.set('mongoConnection', db);
+    console.log("✔ Express server listening on port %d in %s mode", app.get('port'), app.get('env'));
+  });
 });
