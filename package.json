@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "amqp": "^0.2.0",
     "body-parser": "~1.0.0",
     "config": "^1.0.2",
     "cookie-parser": "~1.0.1",
