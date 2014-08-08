@@ -1,3 +1,5 @@
 {
-    "mongodb_connection": "mongodb://stream_user:stream7492@kahana.mongohq.com:10021/stream"
+    "mongodb_connection": "mongodb://stream_user:stream7492@kahana.mongohq.com:10021/stream",
+    "amq_exchange_name": "gainsight-click-stream-exchange-delete",
+    "amq_queue_name": "gainsight-click-stream-queue-delete2"
 }
