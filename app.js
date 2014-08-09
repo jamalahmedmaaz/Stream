@@ -86,3 +86,9 @@ MongoClient.connect(config.get('mongodb_connection'), function (err, db) {
     console.log("✔ Express server listening on port %d in %s mode.", app.get('port'), app.get('env'));
   });
 });
+
+// Print cache stats preriodically
+setInterval(function() {
+  var nodecache = app.get('nodeCache');
+  console.log(new Date().toISOString() +  ': Cache stats ' , (nodecache.getStats()));
+}, 60000);
