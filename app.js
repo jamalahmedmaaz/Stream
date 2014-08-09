@@ -10,6 +10,7 @@ var users = require('./routes/users');
 var segment = require('./routes/segmentIO');
 var track = require('./routes/track');
 var auth = require('./routes/auth');
+var nodeCache = require( "node-cache" );
 
 //Required configuration 
 var config = require('config');
@@ -20,6 +21,9 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+//setting node-cache as global varible
+app.set('nodeCache', new nodeCache({ stdTTL: 10}));
 
 app.use(favicon());
 app.use(logger('dev'));
