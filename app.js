@@ -71,19 +71,18 @@ app.use(function (err, req, res, next) {
   });
 });
 
-//Should always be at end -----------
 
 module.exports = app;
-
 app.set('port', process.env.PORT || 3000);
 
-app.listen(app.get('port'), function () {
-  MongoClient.connect(config.get('mongodb_connection'), function (err, db) {
-    if (err) {
-      console.error('✗ MongoDB Connection Error. Please make sure MongoDB is running.');
-      throw err;
-    }
-    app.set('mongoConnection', db);
-    console.log("✔ Express server listening on port %d in %s mode", app.get('port'), app.get('env'));
+MongoClient.connect(config.get('mongodb_connection'), function (err, db) {
+  if (err) {
+    console.error('✗ MongoDB Connection Error. Make sure MongoDB is running.');
+    throw err;
+  }
+  //Mongo connection established
+  app.set('mongoConnection', db);
+  app.listen(app.get('port'), function () {
+    console.log("✔ Express server listening on port %d in %s mode.", app.get('port'), app.get('env'));
   });
 });
