@@ -23,7 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 //setting node-cache as global varible
-app.set('nodeCache', new nodeCache({ stdTTL: 10, checkperiod: 300}));
+app.set('nodeCache', new nodeCache({ stdTTL: 120, checkperiod: 300}));
 
 app.use(favicon());
 app.use(logger('dev'));
