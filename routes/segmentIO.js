@@ -27,18 +27,7 @@ var amqpconnection = amqp.createConnection({
 // When connected create the exchange
 amqpconnection.on('ready', function () {
   // declare the default exchange
-  exchange = amqpconnection.exchange('');
-
-  // TODO: Delete following as we do not want to listen back to our queue.
-  amqpconnection.queue(queueName, {
-    durable: true
-  }, function (queue) {
-    // subscribe to that queue
-    console.log('Queue created: ' + queue.name);
-    queue.subscribe(function (msg) {
-      console.log('Queue received:', msg.body);
-    });
-  });
+  exchange = amqpconnection.exchange(exchangeName);
 });
 
 exports.post = function (request, response) {
