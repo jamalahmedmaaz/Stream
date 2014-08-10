@@ -27,7 +27,7 @@ var amqpconnection = amqp.createConnection({
 // When connected create the exchange
 amqpconnection.on('ready', function () {
     // declare the default exchange
-    exchange = amqpconnection.exchange(exchangeName);
+    exchange = amqpconnection.exchange('');
 });
 
 exports.post = function (request, response) {
@@ -55,7 +55,7 @@ function sendToQueue(segmentIOPayLoad) {
         console.error('Payload skipped. Exchange is not yet ready', segmentIOPayLoad);
         return;
     }
-    // publish a message
+
     exchange.publish(queueName, {
         body: segmentIOPayLoad
     });
