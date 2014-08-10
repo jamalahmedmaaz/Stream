@@ -43,7 +43,7 @@ amqpconnection.on('ready', function () {
 
 exports.post = function (request, response) {
   addToQueue(request.body);
-  response.send(JSON.stringify(request.body));
+  response.send(true);
 }
 
 function addToQueue(data) {
