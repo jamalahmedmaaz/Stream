@@ -37,7 +37,7 @@ app.use('/users', users);
 
 app.get('/gstrack/pixel', track.getPixel);
 app.get('/gstrack/clicklink', track.getRedirect);
-app.post('/segmentio/event', auth.verifyAccessToken, segment.post);
+app.post('/clickstream/segmentio/event ', auth.verifyAccessToken, segment.post);
 
 //Should always be at end -----------
 /// catch 404 and forward to error handler
